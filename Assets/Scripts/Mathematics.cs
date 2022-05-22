@@ -219,6 +219,6 @@ public class Mathematics : MonoBehaviour
         if (testNumerical >= 0)
             return true;
         else
-            return testNumerical==0;
+            return false;
     }
 }
