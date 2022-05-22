@@ -176,9 +176,11 @@ public class Mathematics : MonoBehaviour
     static public bool IsIntersectAABB_Plane(GameObject aabbShape, GameObject planeShape)
     {
         AABB aabb = CalculateAABB(aabbShape);
+        Coordinates planeNormal = new Coordinates(planeShape.transform.up.x, planeShape.transform.up.y, planeShape.transform.up.z);
 
-        Vector3 diagonalMin, diagonalMax;
-        if (planeShape.transform.up.x >= 0)
+        Coordinates diagonalMin = new Coordinates(0, 0, 0);
+        Coordinates diagonalMax = new Coordinates(0, 0, 0);
+        if (planeNormal.x >= 0)
         {
             diagonalMin.x = aabb.minX;
             diagonalMax.x = aabb.maxX;
@@ -188,7 +190,7 @@ public class Mathematics : MonoBehaviour
             diagonalMin.x = aabb.maxX;
             diagonalMax.x = aabb.minX; 
         }
-        if (planeShape.transform.up.y >= 0)
+        if (planeNormal.y >= 0)
         {
             diagonalMin.y = aabb.minY;
             diagonalMax.y = aabb.maxY;
@@ -198,7 +200,7 @@ public class Mathematics : MonoBehaviour
             diagonalMin.y = aabb.maxY;
             diagonalMax.y = aabb.minY;
         }
-        if (planeShape.transform.up.z >= 0)
+        if (planeNormal.z >= 0)
         {
             diagonalMin.z = aabb.minZ;
             diagonalMax.z = aabb.maxZ;
@@ -209,11 +211,11 @@ public class Mathematics : MonoBehaviour
             diagonalMax.z = aabb.minZ;
         }
 
-        float testNumerical = Vector3.Dot(planeShape.transform.up, diagonalMin) + planeShape.transform.position.sqrMagnitude;
+        float testNumerical = Dot(planeNormal, diagonalMin) + planeShape.transform.position.sqrMagnitude;
         if (testNumerical > 0)
             return false;
 
-        testNumerical = Vector3.Dot(planeShape.transform.up, diagonalMax) + planeShape.transform.position.sqrMagnitude;
+        testNumerical = Dot(planeNormal, diagonalMax) + planeShape.transform.position.sqrMagnitude;
         if (testNumerical >= 0)
             return true;
         else
